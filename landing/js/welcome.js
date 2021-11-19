@@ -26,6 +26,7 @@
           text: '\n         <p>\n           Shepherd is a JavaScript library for guiding users through your app.\n           It uses <a href="https://popper.js.org/" data-test-popper-link>Popper.js</a>,\n           another open source library, to render dialogs for each tour "step".\n         </p>\n        \n         <p>\n           Among many things, Popper makes sure your steps never end up off screen or cropped by an overflow.\n           (Try resizing your browser to see what we mean.)\n         </p>\n',
           attachTo: {
             element: '.hero-welcome',
+            // element:  document.getElementById('test').contentWindow.document.querySelector('h1'),
             on: 'bottom'
           },
           buttons: [
@@ -58,7 +59,8 @@
         title: 'Including',
         text: element,
         attachTo: {
-          element: '.hero-including',
+          // element: '.hero-including',
+          element:  document.getElementById('test').contentWindow.document.querySelector('h1'),
           on: 'bottom'
         },
         buttons: [
