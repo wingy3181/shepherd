@@ -135,13 +135,15 @@ export function getPopperOptions(attachToOptions, step) {
     popperOptions.placement = attachToOptions.on;
 
     if (attachToOptions.iframe) {
-      const clientRect = attachToOptions.iframe.getBoundingClientRect();
-      const containerOffsetTopPos = clientRect.y;
-      const containerOffsetLeftPos = clientRect.x;
       popperOptions.modifiers.push({
         name: 'offset',
         options: {
-          offset: [containerOffsetLeftPos, containerOffsetTopPos]
+          offset: () => {
+            const clientRect = attachToOptions.iframe.getBoundingClientRect();
+            const containerOffsetTopPos = clientRect.y;
+            const containerOffsetLeftPos = clientRect.x;
+            return [containerOffsetLeftPos, containerOffsetTopPos];
+          }
         }
       });
     }
