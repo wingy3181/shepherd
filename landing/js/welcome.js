@@ -5,7 +5,7 @@
     var shepherd = setupShepherd();
     setTimeout(function() {
       shepherd.start();
-    }, 400);
+    }, 1400);
   }
 
   function setupShepherd() {
@@ -52,6 +52,8 @@
 
     const element = document.createElement('p');
     element.innerText = 'Including Shepherd is easy! Just include shepherd.js. The styles are bundled with the JS.';
+    const a = document.getElementById('test').contentWindow.document.querySelector('h1');
+    // a is most of the time null at this stage
 
     // These steps should be added via `addSteps`
     const steps = [
@@ -60,7 +62,8 @@
         text: element,
         attachTo: {
           // element: '.hero-including',
-          element:  document.getElementById('test').contentWindow.document.querySelector('h1'),
+          //element:  document.getElementById('test').contentWindow.document.querySelector('h1'),
+          element: '#test',
           on: 'bottom'
         },
         buttons: [
