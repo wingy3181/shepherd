@@ -64,6 +64,7 @@
           // element: '.hero-including',
           //element:  document.getElementById('test').contentWindow.document.querySelector('h1'),
           element: '#test',
+          subElement: 'h1',
           on: 'bottom'
         },
         buttons: [

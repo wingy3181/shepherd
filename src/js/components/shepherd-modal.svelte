@@ -48,6 +48,7 @@
     targetElement
   ) {
     if (targetElement) {
+      const isTargetElementFromIFrame = targetElement.closest('body')!==window.document.body;
       const { y, height } = _getVisibleHeight(targetElement, scrollParent);
       const { x, width, left } = targetElement.getBoundingClientRect();
 
@@ -56,7 +57,7 @@
         width: width + modalOverlayOpeningPadding * 2,
         height: height + modalOverlayOpeningPadding * 2,
         x: (x || left) - modalOverlayOpeningPadding,
-        y: y - modalOverlayOpeningPadding,
+        y: y - modalOverlayOpeningPadding + (isTargetElementFromIFrame ? 800 : 0),
         r: modalOverlayOpeningRadius
       };
     } else {

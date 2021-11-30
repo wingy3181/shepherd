@@ -31,6 +31,13 @@ export function parseAttachTo(step) {
     // guarantee that the element will exist in the future.
     try {
       returnOpts.element = document.querySelector(options.element);
+
+      if (isString(options.subElement)) {
+        const iframeElement = returnOpts.element;
+        returnOpts.element = iframeElement.contentWindow.document.querySelector(
+          options.subElement
+        );
+      }
     } catch (e) {
       // TODO
     }
@@ -65,6 +72,9 @@ export function setupTooltip(step) {
     content.classList.add('shepherd-centered');
   }
 
+  // https://github.com/popperjs/popper-core/issues/791
+  // https://github.com/popperjs/popper-core/issues/791#issuecomment-570127540
+  // https://github.com/popperjs/popper-core/issues/791#issuecomment-727143848
   step.tooltip = createPopper(target, step.el, popperOptions);
   step.target = attachToOptions.element;
 
