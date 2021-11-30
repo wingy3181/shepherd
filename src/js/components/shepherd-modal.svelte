@@ -45,19 +45,23 @@
     modalOverlayOpeningPadding = 0,
     modalOverlayOpeningRadius = 0,
     scrollParent,
-    targetElement
+    targetElement,
+    iframeElement
   ) {
     if (targetElement) {
       const isTargetElementFromIFrame = targetElement.closest('body')!==window.document.body;
       const { y, height } = _getVisibleHeight(targetElement, scrollParent);
       const { x, width, left } = targetElement.getBoundingClientRect();
 
+      const clientRect = isTargetElementFromIFrame ? iframeElement.getBoundingClientRect() : undefined;
+      const containerOffsetTopPos = isTargetElementFromIFrame ? clientRect.y : undefined;
+      const containerOffsetLeftPos = isTargetElementFromIFrame ? clientRect.x : undefined;
       // getBoundingClientRect is not consistent. Some browsers use x and y, while others use left and top
       openingProperties = {
         width: width + modalOverlayOpeningPadding * 2,
         height: height + modalOverlayOpeningPadding * 2,
-        x: (x || left) - modalOverlayOpeningPadding,
-        y: y - modalOverlayOpeningPadding + (isTargetElementFromIFrame ? 800 : 0),
+        x: (x || left) - modalOverlayOpeningPadding + (isTargetElementFromIFrame ? containerOffsetLeftPos : 0),
+        y: y - modalOverlayOpeningPadding + (isTargetElementFromIFrame ? containerOffsetTopPos : 0),
         r: modalOverlayOpeningRadius
       };
     } else {
@@ -142,7 +146,8 @@
         modalOverlayOpeningPadding,
         modalOverlayOpeningRadius,
         scrollParent,
-        step.target
+        step.target,
+        step.iframe
       );
       rafId = requestAnimationFrame(rafLoop);
     };

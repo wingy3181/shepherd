@@ -34,6 +34,7 @@ export function parseAttachTo(step) {
 
       if (isString(options.subElement)) {
         const iframeElement = returnOpts.element;
+        returnOpts.iframe = iframeElement;
         returnOpts.element = iframeElement.contentWindow.document.querySelector(
           options.subElement
         );
@@ -77,6 +78,7 @@ export function setupTooltip(step) {
   // https://github.com/popperjs/popper-core/issues/791#issuecomment-727143848
   step.tooltip = createPopper(target, step.el, popperOptions);
   step.target = attachToOptions.element;
+  step.iframe = attachToOptions.iframe;
 
   return popperOptions;
 }
@@ -131,6 +133,18 @@ export function getPopperOptions(attachToOptions, step) {
     popperOptions = makeCenteredPopper(step);
   } else {
     popperOptions.placement = attachToOptions.on;
+
+    if (attachToOptions.iframe) {
+      const clientRect = attachToOptions.iframe.getBoundingClientRect();
+      const containerOffsetTopPos = clientRect.y;
+      const containerOffsetLeftPos = clientRect.x;
+      popperOptions.modifiers.push({
+        name: 'offset',
+        options: {
+          offset: [containerOffsetLeftPos, containerOffsetTopPos]
+        }
+      });
+    }
   }
 
   const defaultStepOptions =
